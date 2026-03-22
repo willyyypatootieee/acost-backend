@@ -1,0 +1,162 @@
+basePath: /api/v1
+definitions:
+  handler.AuthResponse:
+    properties:
+      token:
+        type: string
+      user:
+        type: string
+    type: object
+  handler.CredentialsRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  handler.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  handler.HealthResponse:
+    properties:
+      service:
+        type: string
+      status:
+        type: string
+    type: object
+  handler.MeResponse:
+    properties:
+      user:
+        type: string
+    type: object
+  handler.RegisterResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+      user:
+        type: string
+    type: object
+  handler.VersionResponse:
+    properties:
+      version:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a simple API for managing products and orders.
+  title: Acost Backend RestAPI
+  version: 1.0.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a static bearer token for development.
+      parameters:
+      - description: Login payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CredentialsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.AuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Login user
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers a user and returns a static bearer token for development.
+      parameters:
+      - description: Register payload
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CredentialsRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handler.RegisterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Register user
+      tags:
+      - auth
+  /health:
+    get:
+      description: Returns service health status.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.HealthResponse'
+      summary: Health check
+      tags:
+      - health
+  /me:
+    get:
+      description: Returns the current authenticated user from bearer token middleware.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.MeResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Current user
+      tags:
+      - auth
+  /version:
+    get:
+      description: Returns current service version.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.VersionResponse'
+      summary: Service version
+      tags:
+      - health
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
