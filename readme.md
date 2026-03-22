@@ -11,6 +11,7 @@ This project uses Gin and Swaggo to auto-generate Swagger docs and serve Swagger
 	go mod tidy
 
 3. Generate Swagger docs from annotations:
+	go build ./...
 	go generate ./...
 
 4. Run the server:

@@ -20,7 +20,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-//go:generate go run github.com/swaggo/swag/cmd/swag@latest init -g main.go -o ../../docs --parseInternal
+//go:generate go run github.com/swaggo/swag/cmd/swag@latest init -d ../../ -g cmd/server/main.go -o ../../docs --parseInternal
 func main() {
 	docs.SwaggerInfo.Title = "Acost Backend RestAPI"
 	docs.SwaggerInfo.Description = "This is a simple API for managing products and orders."
