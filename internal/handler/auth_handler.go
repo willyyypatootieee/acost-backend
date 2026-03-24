@@ -2,6 +2,7 @@ package handler
 
 import (
 	"acost/internal/config"
+	"acost/internal/suppabase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,6 +30,14 @@ type MeResponse struct {
 
 type ErrorResponse struct {
 	Error string `json:"error"`
+}
+
+type AuthHandler struct {
+	suppabase *suppabase.Client
+}
+
+func NewAuthHandler(suppabaseClient *suppabase.Client) *authHandler {
+	return *authHandler{suppabase: suppabaseClient}
 }
 
 // Login godoc
